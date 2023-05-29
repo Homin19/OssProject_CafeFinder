@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   container2: {
     /* View 스타일*/
-    //flex: 1,
+    //flex: 1,  container1에 flex1이 있는데 container2에 하나 더 있어서 공간안에 또 공간을 차지해버림 그래서 cafe Finder와 검색창 간에 공간이 생겨버린것
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
