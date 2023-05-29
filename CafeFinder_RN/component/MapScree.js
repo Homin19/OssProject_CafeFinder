@@ -1,3 +1,5 @@
+// 아직 구현 하나도 안됨
+
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
