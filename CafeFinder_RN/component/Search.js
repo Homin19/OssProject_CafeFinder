@@ -40,13 +40,9 @@ const Search = () => {
 
 const styles = StyleSheet.create({
   container1: {  /* View 스타일*/
-    flex: 1,
-
-    justifyContent: 'center',
     alignItems: 'center',
   },
     container2: {  /* View 스타일*/
-    flex: 1,
     flexDirection:'row',
     justifyContent: 'center',
     alignItems: 'center',
