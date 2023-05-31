@@ -39,19 +39,12 @@ const Search = () => {
 };
 
 const styles = StyleSheet.create({
-<<<<<<< HEAD
-  container1: {  /* View 스타일*/
-    alignItems: 'center',
-  },
-    container2: {  /* View 스타일*/
-=======
   container1: {
     /* View 스타일*/
     alignItems: 'center',
   },
     container2: {
       /* View 스타일*/
->>>>>>> 238d35324eb84d87c9a3929cd988ccaf14d141dc
     flexDirection:'row',
     justifyContent: 'center',
     alignItems: 'center',
