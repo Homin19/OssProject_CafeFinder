@@ -9,6 +9,7 @@ import {StyleSheet,
 import Search from './component/Search'
 export default function App() {
 
+  
 return(
   <View>
     <Search/>
