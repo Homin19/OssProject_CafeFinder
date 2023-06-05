@@ -30,7 +30,7 @@ const Search = () => {
       >
       <Image
           style={styles.imagebutton}
-          source={require('../assets/search.png')}
+          source={require('../images/search.png')}
       />
       </TouchableOpacity>
     </View>
