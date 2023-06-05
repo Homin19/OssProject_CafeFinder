@@ -1,39 +1,46 @@
-import { useState } from 'react';
-import {TouchableOpacity, Image, Text, View, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { useState } from "react";
+import {
+  TouchableOpacity,
+  Image,
+  Text,
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+} from "react-native";
 
 const Search = () => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const handleInputChange = (inputText) => {
     setText(inputText);
   };
 
   const handleButtonClick = () => {
-    Alert.alert('팝업 알림입니다.')
+    Alert.alert("팝업 알림입니다.");
     // 여기에서 텍스트 검색 처리 기능을 구현해야함( 네이게이터 사용해서 다른창 넘어가게 )
   };
 
   return (
     <View style={styles.container1}>
       <Text style={styles.text}> {"\n\n"} Cafe Finder </Text>
-      <Text>  </Text>
-    <View style ={styles.container2}>
-       <TextInput
-        style={styles.input}
-        placeholder="검색어를 입력하시오 "
-        onChangeText={handleInputChange}
-        value={text}
-      />
-      <Text>  </Text>
-      <TouchableOpacity
-        onPress={handleButtonClick}
-      >
-      <Image
-          style={styles.imagebutton}
-          source={require('../images/search.png')}
-      />
-      </TouchableOpacity>
-    </View>
+      <Text> </Text>
+      <View style={styles.container2}>
+        <TextInput
+          style={styles.input}
+          placeholder="검색어를 입력하시오 "
+          onChangeText={handleInputChange}
+          value={text}
+        />
+        <Text> </Text>
+        <TouchableOpacity onPress={handleButtonClick}>
+          <Image
+            style={styles.imagebutton}
+            source={require("../images/search.png")}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -41,32 +48,32 @@ const Search = () => {
 const styles = StyleSheet.create({
   container1: {
     /* View 스타일*/
-    alignItems: 'center',
+    alignItems: "center",
   },
-    container2: {
-      /* View 스타일*/
-    flexDirection:'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+  container2: {
+    /* View 스타일*/
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   input: {
     /*검색창*/
     width: 250,
     height: 60,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     paddingHorizontal: 10,
     marginBottom: 20,
   },
   text: {
     /*검색어*/
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-  imagebutton:{
+  imagebutton: {
     /*검색버튼*/
-    width: 60 ,
+    width: 60,
     height: 60,
     paddingHorizontal: 10,
     marginBottom: 20,

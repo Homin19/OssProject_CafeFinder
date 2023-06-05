@@ -1,6 +1,5 @@
-// lee ho minsss
-import { initializeApp } from "firebase/app";
-import firebase from "firebase/firestore";
+// lee ho min
+/*import firebase from 'firebase';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCtRY0aIeIysDITJpL7LPxYkqdjBCAQaWY",
@@ -12,7 +11,7 @@ const firebaseConfig = {
   appId: "1:572005425959:web:d8fbbac1f945a7d8737f02",
 };
 
-const app = initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore(app);
 
-export { db };
+export { db };*/
