@@ -7,7 +7,7 @@ const DBTest = () => {
   const [addPrice, setAddPrice] = useState("");
   const [addBrand, setAddBrand] = useState("");
   const [users, setUsers] = useState("");
-
+  /* Test 20230605-13:00 */
   const addtoDB = async () => {
     try {
       await db.collection("CafeFinder").doc();
