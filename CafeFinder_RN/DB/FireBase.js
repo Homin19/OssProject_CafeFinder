@@ -1,4 +1,4 @@
-// lee ho min
+// lee ho minsss
 import { initializeApp } from "firebase/app";
 import firebase from "firebase/firestore";
 
