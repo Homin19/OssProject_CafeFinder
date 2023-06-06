@@ -6,7 +6,7 @@ import DBTest from "./component/DBTest";
 export default function App() {
   return (
     <View>
-      <Search />
+      <DBTest />
     </View>
   );
 }

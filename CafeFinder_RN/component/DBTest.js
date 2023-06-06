@@ -1,4 +1,4 @@
-/* import { useState } from "react";
+import { useState } from "react";
 import { View, TextInput, Button, Text } from "react-native";
 import { db } from "../DB/FireBase";
 
@@ -91,4 +91,4 @@ const DBTest = () => {
   );
 };
 
-export default DBTest; */
+export default DBTest;
