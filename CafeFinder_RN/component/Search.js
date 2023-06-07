@@ -9,9 +9,8 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import MapScreen from "./MapScreen";
 
-const Main = (props) => {
+const Search = () => {
   const [text, setText] = useState("");
 
   const handleInputChange = (inputText) => {
@@ -35,19 +34,12 @@ const Main = (props) => {
           value={text}
         />
         <Text> </Text>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate("MapScreen")
-          }}
-        >
+        <TouchableOpacity onPress={handleButtonClick}>
           <Image
             style={styles.imagebutton}
-            source={require("../assets/search.png")}
+            source={require("../images/search.png")}
           />
         </TouchableOpacity>
-      </View>
-      <View>
-      <MapScreen />
       </View>
     </View>
   );
@@ -88,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Main;
+export default Search;
