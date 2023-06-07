@@ -46,9 +46,7 @@ const Main = (props) => {
           />
         </TouchableOpacity>
       </View>
-      <View>
       <MapScreen />
-      </View>
     </View>
   );
 };
