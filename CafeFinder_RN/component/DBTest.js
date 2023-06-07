@@ -19,7 +19,7 @@ const DBTest = () => {
       setAddName("");
       setAddAge("");
     } catch (error) {
-      console.log(error.mesage);
+      console.log(error.message);
     }
   };
   const readfromDB = async () => {
