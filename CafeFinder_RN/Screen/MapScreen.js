@@ -1,9 +1,12 @@
 import React, { useEffect, useState, } from 'react';
+
 import {
     Text, View, StyleSheet,
 } from 'react-native';
+
 // npm i react-native-maps
 import MapView, { Marker, Callout } from 'react-native-maps';
+
 // npm i expo-location
 import * as Location from 'expo-location';
 
@@ -12,6 +15,7 @@ const MapScreen = (props) => {
         latitude: 36.7987869, //위도
         longitude: 127.0757584, //경도
     });
+
     //에니메이션으로 이동
     const mapRef = React.useRef(null);
     const [region, setRegion] = React.useState();
