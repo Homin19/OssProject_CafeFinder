@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import Main from '../Screen/Main'
 import MapScreen from '../Screen/MapScreen';
+import Result from '../Screen/Result';
 
 const Stack = createStackNavigator();
 
@@ -9,7 +10,7 @@ const StackNavi = () => {
     return (
         <Stack.Navigator
             initialRouteName='Main'
-            screenOptions={{ headerShown: false }}
+            screenOptions={{ headerShown: true }}
         >
              <Stack.Screen name="Main" component={Main}
                 options={{
@@ -35,6 +36,7 @@ const StackNavi = () => {
                     }
                 }}
             />
+            <Stack.Screen name="Result" component={Result} />
         </Stack.Navigator>
     )
 }
