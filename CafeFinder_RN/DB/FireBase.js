@@ -1,5 +1,6 @@
 // lee ho min
-import firebase from "firebase";
+import { initializeFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCtRY0aIeIysDITJpL7LPxYkqdjBCAQaWY",
@@ -11,9 +12,11 @@ const firebaseConfig = {
   appId: "1:572005425959:web:d8fbbac1f945a7d8737f02",
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore(app);
+const app = initializeApp(firebaseConfig);
 
+const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+});
 export { db };
 
 // Import the functions you need from the SDKs you need
