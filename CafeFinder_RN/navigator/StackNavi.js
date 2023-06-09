@@ -1,7 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
-
-import Main from '../Screen/Main';
-import MapScreen from '../Screen/MapScreen'
+import Main from '../Screen/Main'
+import MapScreen from '../Screen/MapScreen';
 
 const Stack = createStackNavigator();
 
@@ -12,7 +11,7 @@ const StackNavi = () => {
             initialRouteName='Main'
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen name="Main" component={Main}
+             <Stack.Screen name="Main" component={Main}
                 options={{
                     title: '메인 화면',
                     headerShown: true,
