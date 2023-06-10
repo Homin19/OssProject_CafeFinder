@@ -9,18 +9,44 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import MapScreen from "./MapScreen";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Main = (props) => {
-  const [text, setText] = useState("");
+  const navigation = useNavigation();
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleInputChange = (inputText) => {
-    setText(inputText);
+  const handleSearch = async () => {
+    const fetchedData = await fetchData();
+
+    const filteredData = fetchedData.filter((item) => {
+      const textData = searchTerm.toUpperCase();
+
+      for (const key in item) {
+        if (typeof item[key] === 'string' && item[key].toUpperCase().includes(textData)) {
+          return true;
+        }
+      }
+
+      return false;
+    });
+
+    navigation.navigate('Result', { searchResults: filteredData });
   };
 
-  const handleButtonClick = () => {
-    Alert.alert("팝업 알림입니다.");
-    // 여기에서 텍스트 검색 처리 기능을 구현해야함( 네이게이터 사용해서 다른창 넘어가게 )
+  const fetchData = async () => {
+    const fetchedData = [];
+    try {
+      const jsonValue = await AsyncStorage.getItem('CafeFinder');
+      if (jsonValue) {
+        const data = JSON.parse(jsonValue);
+        fetchedData.push(...data);
+      }
+    } catch (error) {
+      console.log('Error fetching data from AsyncStorage:', error);
+    }
+    return fetchedData;
   };
 
   return (
@@ -31,15 +57,11 @@ const Main = (props) => {
         <TextInput
           style={styles.input}
           placeholder="검색어를 입력하시오 "
-          onChangeText={handleInputChange}
-          value={text}
+          onChangeText={(text) => setSearchTerm(text)}
+          value={searchTerm}
         />
         <Text> </Text>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate("MapScreen")
-          }}
-        >
+        <TouchableOpacity onPress={handleSearch}>
           <Image
             style={styles.imagebutton}
             source={require("../assets/search.png")}
@@ -53,17 +75,14 @@ const Main = (props) => {
 
 const styles = StyleSheet.create({
   container1: {
-    /* View 스타일*/
     alignItems: "center",
   },
   container2: {
-    /* View 스타일*/
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
   input: {
-    /*검색창*/
     width: 250,
     height: 60,
     borderColor: "gray",
@@ -72,13 +91,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   text: {
-    /*검색어*/
     textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
   },
   imagebutton: {
-    /*검색버튼*/
     width: 60,
     height: 60,
     paddingHorizontal: 10,
