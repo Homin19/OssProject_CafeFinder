@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+/* import { NavigationContainer } from "@react-navigation/native";
 import StackNavi from "./navigator/StackNavi";
 
 export default function App() {
@@ -7,9 +7,9 @@ export default function App() {
       <StackNavi />
     </NavigationContainer>
   );
-}
+}*/
 // 오류나는부분 -> 검색창 asyncstorage 계속 뜸 수정하라는대로 다 수정했는데도 안돼..
-/*import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import SearchScreen from "./Screen/searchScreen";
 import Result from "./Screen/Result";
@@ -27,4 +27,4 @@ function App() {
   );
 }
 
-export default App;*/
+export default App;
