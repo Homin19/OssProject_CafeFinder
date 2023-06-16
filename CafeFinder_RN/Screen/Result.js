@@ -1,14 +1,17 @@
-import React from 'react';
-import { View, Text, FlatList, Image } from 'react-native';
+import React from "react";
+import { View, Text, FlatList, Image } from "react-native";
 
 const Result = (props) => {
-  const { searchResults } = props.params; // useRoute로 전달받은 searchResults
+  const { searchResults } = props.route.params; // useRoute로 전달받은 searchResults
 
   const renderItem = ({ item }) => (
     <View>
       <Text>
         {item.image ? (
-          <Image source={{ uri: item.image }} style={{ width: 50, height: 50 }} />
+          <Image
+            source={{ uri: item.image }}
+            style={{ width: 50, height: 50 }}
+          />
         ) : (
           <Text>No Image </Text>
         )}
@@ -17,9 +20,13 @@ const Result = (props) => {
     </View>
   );
 
-  return (   
+  return (
     <View>
-      <FlatList data={searchResults} renderItem={renderItem} keyExtractor={(item) => item.id} />
+      <FlatList
+        data={searchResults}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 };

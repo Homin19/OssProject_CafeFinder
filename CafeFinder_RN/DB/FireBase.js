@@ -1,6 +1,6 @@
 // lee ho min
-import { initializeFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCtRY0aIeIysDITJpL7LPxYkqdjBCAQaWY",
@@ -13,11 +13,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
-});
-
+const db = getFirestore(app);
 
 export { db };
 
