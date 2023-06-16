@@ -17,6 +17,8 @@ const app = initializeApp(firebaseConfig);
 const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
+
+
 export { db };
 
 // Import the functions you need from the SDKs you need
