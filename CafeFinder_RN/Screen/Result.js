@@ -60,7 +60,7 @@ const Result = (props) => {
           <View style={styles.textContainer}>
             <View style={styles.textWrapper}>
               <Text style={styles.brand}>{item.brand} :</Text>
-              <Text style={styles.name}>{item.name} :</Text>
+              <Text style={styles.name}>{item.name} : </Text>
               <Text style={styles.price}>{item.price}</Text>
             </View>
           </View>

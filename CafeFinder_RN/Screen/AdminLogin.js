@@ -1,29 +1,38 @@
-import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../DB/FireBase';
-import { useNavigation } from '@react-navigation/native';
+import { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../DB/FireBase";
+import { useNavigation } from "@react-navigation/native";
 
 const AdminLogin = (props) => {
-  const [id, setID] = useState('');
-  const [pw, setPW] = useState('');
+  const [id, setID] = useState("");
+  const [pw, setPW] = useState("");
 
   const navigation = useNavigation();
 
   const login = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, 'Admin'));
-      const users = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const querySnapshot = await getDocs(collection(db, "Admin"));
+      const users = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       const user = users.find((u) => u.ID === id && u.PW === pw);
 
       if (user) {
-        alert('로그인 성공');
-        setID('');
-        setPW('');
-        navigation.navigate('DataManager');
+        alert("로그인 성공");
+        setID("");
+        setPW("");
+        navigation.navigate("DataManager");
       } else {
-        alert('ID 또는 비밀번호가 잘못되었습니다.');
-        setPW('');
+        alert("ID 또는 비밀번호가 잘못되었습니다.");
+        setPW("");
       }
     } catch (error) {
       console.log(error.message);
@@ -55,33 +64,37 @@ const AdminLogin = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'skyblue',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#9acd32",
   },
   inputTT: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '75%',
-    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "75%",
+    height: 45,
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
+    backgroundColor: "white",
+    borderColor: "black",
+    borderWidth: 2,
+    borderRadius: 7,
   },
   loginBtn: {
-    width: '75%',
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    backgroundColor: 'white',
-    borderWidth: 1,
+    width: "75%",
+    height: 45,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 7,
+    backgroundColor: "white",
+    borderWidth: 2,
     marginBottom: 10,
   },
   loginText: {
-    color: 'black',
-    fontWeight: 'bold',
-  }
+    color: "black",
+    fontWeight: "bold",
+  },
 });
 
 export default AdminLogin;

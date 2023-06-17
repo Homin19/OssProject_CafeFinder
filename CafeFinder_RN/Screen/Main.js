@@ -73,10 +73,10 @@ const Main = (props) => {
   );
 
   return (
-    <View style={styles.container1}>
+    <View style={styles.AllContainer}>
       <Text style={styles.text}> Cafe Finder </Text>
       <Text> </Text>
-      <View style={styles.container2}>
+      <View style={styles.TextBox}>
         <TextInput
           style={styles.input}
           placeholder="검색어를 입력하시오 "
@@ -95,10 +95,8 @@ const Main = (props) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.container3}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("AdminLogin")}>
+      <View style={styles.DirectionIcon}>
+        <TouchableOpacity onPress={() => navigation.navigate("AdminLogin")}>
           <Image
             style={styles.imagebutton}
             source={require("../assets/setting.png")}
@@ -110,31 +108,34 @@ const Main = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container1: {
+  AllContainer: {
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: 80,
+    paddingTop: 20,
   },
-  container2: {
+  TextBox: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
   },
-  container3: {
+  DirectionIcon: {
     position: "absolute",
     bottom: 20,
     right: 20,
   },
   input: {
     width: 300,
-    height: 60,
-    borderColor: "gray",
+    height: 57,
+    borderColor: "black",
     borderWidth: 1,
     paddingHorizontal: 10,
     marginBottom: 20,
     fontSize: 25,
+    borderWidth: 2,
+    borderRadius: 7,
+    marginRight: 5,
   },
   text: {
     textAlign: "center",
