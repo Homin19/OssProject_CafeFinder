@@ -59,7 +59,7 @@ const MapScreen = ({ route }) => {
         region={mapRegion}
         onRegionChange={mapRegionChangeHandle}
         showsUserLocation={true}
-        followsUserLocation={true}
+        followsUserLocation={false}
       >
         {item && item.latitude && item.longitude && (
           <Marker
