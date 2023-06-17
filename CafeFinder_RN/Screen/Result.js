@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const Result = (props) => {
@@ -16,18 +23,19 @@ const Result = (props) => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleItemClick(item)}>
-      <View>
-        <Text>
-          {item.image ? (
-            <Image
-              source={{ uri: item.image }}
-              style={{ width: 50, height: 50 }}
-            />
-          ) : (
-            <Text>No Image </Text>
-          )}
-          {item.brand} : {item.name} : {item.price}
-        </Text>
+      <View style={styles.container}>
+        {item.image ? (
+          <Image source={{ uri: item.image }} style={styles.image} />
+        ) : (
+          <Text>No Image</Text>
+        )}
+        <View style={styles.textContainer}>
+          <View style={styles.textWrapper}>
+            <Text style={styles.brand}>{item.brand} :</Text>
+            <Text style={styles.name}>{item.name} : </Text>
+            <Text style={styles.price}>{item.price}</Text>
+          </View>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -36,7 +44,7 @@ const Result = (props) => {
     <View>
       <FlatList
         style={{
-          backgroundColor: 'lavender',
+          backgroundColor: "lavender",
         }}
         data={searchResults}
         renderItem={renderItem}
@@ -45,5 +53,35 @@ const Result = (props) => {
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  image: {
+    width: 50,
+    height: 50,
+  },
+  textContainer: {
+    marginLeft: 10, // 이미지와 텍스트 사이의 간격
+    flex: 1,
+  },
+  textWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  brand: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 7,
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
 export default Result;

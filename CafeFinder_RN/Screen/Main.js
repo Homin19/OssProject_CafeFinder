@@ -1,7 +1,14 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../DB/FireBase";
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const Main = (props) => {
@@ -66,7 +73,6 @@ const Main = (props) => {
   );
 
   return (
-
     <View style={styles.container1}>
       <Text style={styles.text}> {"\n\n"} Cafe Finder </Text>
       <Text> </Text>
@@ -90,7 +96,6 @@ const Main = (props) => {
         </TouchableOpacity>
       </View>
     </View>
-
   );
 };
 
@@ -104,17 +109,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    width: 250,
+    width: 300,
     height: 60,
     borderColor: "gray",
     borderWidth: 1,
     paddingHorizontal: 10,
     marginBottom: 20,
+    fontSize: 25,
   },
   text: {
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "bold",
+    textAlign: "left",
   },
   imagebutton: {
     width: 60,
