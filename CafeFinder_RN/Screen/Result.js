@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -21,24 +22,52 @@ const Result = (props) => {
     navigation.navigate("MapScreen", { item });
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleItemClick(item)}>
-      <View style={styles.container}>
-        {item.image ? (
-          <Image source={{ uri: item.image }} style={styles.image} />
-        ) : (
-          <Text>No Image</Text>
-        )}
-        <View style={styles.textContainer}>
-          <View style={styles.textWrapper}>
-            <Text style={styles.brand}>{item.brand} :</Text>
-            <Text style={styles.name}>{item.name} : </Text>
-            <Text style={styles.price}>{item.price}</Text>
+  const [loadingImages, setLoadingImages] = useState([]);
+
+  const handleImageLoadStart = (itemId) => {
+    setLoadingImages((prevLoadingImages) => [...prevLoadingImages, itemId]);
+  }; // 이미지가 로딩중인지 추적하기 위한 배열
+  // handleImageLoadStart 함수를 추가하여 이미지 로딩이 시작될때 해당 이미지의 ID를 loadingImages 배열에 추가
+
+  const handleImageLoadEnd = (itemId) => {
+    setLoadingImages((prevLoadingImages) =>
+      prevLoadingImages.filter((id) => id !== itemId)
+    );
+  }; // handleImageLoadEnd 함수를 추가하여 이미지 로딩이 완료되었을 때 해당 이미지의 ID를 loadingImages 배열에서 제거
+
+  const renderItem = ({ item }) => {
+    const isLoading = loadingImages.includes(item.id);
+    // renderItem 함수에서 이미지가 로딩중이면 ActivityIndicator를 표시
+
+    return (
+      <TouchableOpacity onPress={() => handleItemClick(item)}>
+        <View style={styles.container}>
+          {item.image ? (
+            <View style={styles.imageContainer}>
+              <Image
+                source={{ uri: item.image }}
+                style={styles.image}
+                onLoadStart={() => handleImageLoadStart(item.id)}
+                onLoadEnd={() => handleImageLoadEnd(item.id)}
+              />
+              {isLoading && (
+                <ActivityIndicator style={styles.loadingIndicator} />
+              )}
+            </View>
+          ) : (
+            <Text>No Image</Text>
+          )}
+          <View style={styles.textContainer}>
+            <View style={styles.textWrapper}>
+              <Text style={styles.brand}>{item.brand} :</Text>
+              <Text style={styles.name}>{item.name} :</Text>
+              <Text style={styles.price}>{item.price}</Text>
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View>
@@ -53,17 +82,25 @@ const Result = (props) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
+  flatList: {
+    backgroundColor: "lavender",
+  },
   container: {
     flexDirection: "row",
     alignItems: "center",
+    marginVertical: 10,
+    paddingHorizontal: 10,
+  },
+  imageContainer: {
+    marginRight: 10,
   },
   image: {
     width: 50,
     height: 50,
   },
   textContainer: {
-    marginLeft: 10, // 이미지와 텍스트 사이의 간격
     flex: 1,
   },
   textWrapper: {
@@ -83,5 +120,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  loadingIndicator: {
+    marginLeft: 5,
+  },
 });
+
 export default Result;
