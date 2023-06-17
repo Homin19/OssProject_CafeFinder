@@ -74,7 +74,7 @@ const Main = (props) => {
 
   return (
     <View style={styles.container1}>
-      <Text style={styles.text}> {"\n\n"} Cafe Finder </Text>
+      <Text style={styles.text}> Cafe Finder </Text>
       <Text> </Text>
       <View style={styles.container2}>
         <TextInput
@@ -95,19 +95,36 @@ const Main = (props) => {
           />
         </TouchableOpacity>
       </View>
+      <View style={styles.container3}>
+        <TouchableOpacity>
+          <Image
+            style={styles.imagebutton}
+            source={require("../assets/setting.png")}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container1: {
+    flex: 1,
+    justifyContent: "flex-start",
     alignItems: "center",
+    paddingTop: 80,
   },
-  container2: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+container2: {
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  marginBottom: 20,
+},
+container3: {
+  position: "absolute",
+  bottom: 20,
+  right: 20,
+},
   input: {
     width: 300,
     height: 60,
@@ -129,6 +146,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 20,
   },
+
 });
 
 export default Main;
