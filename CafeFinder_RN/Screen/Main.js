@@ -96,7 +96,10 @@ const Main = (props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.container3}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("AdminLogin")
+          }>
           <Image
             style={styles.imagebutton}
             source={require("../assets/setting.png")}
@@ -114,17 +117,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 80,
   },
-container2: {
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-  marginBottom: 20,
-},
-container3: {
-  position: "absolute",
-  bottom: 20,
-  right: 20,
-},
+  container2: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  container3: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+  },
   input: {
     width: 300,
     height: 60,
@@ -146,7 +149,6 @@ container3: {
     paddingHorizontal: 10,
     marginBottom: 20,
   },
-
 });
 
 export default Main;
