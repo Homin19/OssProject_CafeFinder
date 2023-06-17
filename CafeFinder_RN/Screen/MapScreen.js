@@ -1,128 +1,97 @@
-import React, { useEffect, useState, } from 'react';
-import {
-    Text, View, StyleSheet,
-} from 'react-native';
-// npm i react-native-maps
+import React, { useEffect, useState } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
-// npm i expo-location
 import * as Location from 'expo-location';
 
-const MapScreen = (props) => {
-    const [mapRegion, setmapRegion] = useState({ //나의 위치 usestate
-        latitude: 36.7987869, //위도
-        longitude: 127.0757584, //경도
-    });
-    //에니메이션으로 이동
-    const mapRef = React.useRef(null);
-    const [region, setRegion] = React.useState();
+const MapScreen = ({ route }) => {
+  const { item } = route.params;
 
+  const [mapRegion, setMapRegion] = useState({
+    latitude: 36.7987869,
+    longitude: 127.0757584,
+    latitudeDelta: 0.005,
+    longitudeDelta: 0.005,
+  });
 
-    // 드래그 해서 위치의 위도경도 가져오기
-    const mapRegionChangehandle = (region) => {
-        setRegion(region)
-    };
+  const mapRef = React.useRef(null);
 
+  const [region, setRegion] = React.useState(null);
 
-    useEffect(() => {
-        (async () => {
+  const mapRegionChangeHandle = (region) => {
+    setRegion(region);
+  };
 
-            //위치 수집 허용하는지 물어보기
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
-            }
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
 
-            let location = await Location.getCurrentPositionAsync({}); //현재 위치 가져오기
+      let location = await Location.getCurrentPositionAsync({});
+      setMapRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      });
+    })();
+  }, []);
 
-            setmapRegion({ //현재 위치 set
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude
-            })
-        })();
-    }, []);
-
-
-    // 이동하기
-    const onDetail = (lat, lon) => { 
-        setmapRegion({ //현재 위치
-            latitude: lat,
-            longitude: lon,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005
-        })
-        mapRef.current.animateToRegion({ //해당 위치로 지도 이동
-            latitude: lat,
-            longitude: lon,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005
-        }, 1000);
+  useEffect(() => {
+    if (item) {
+      const { latitude, longitude } = item;
+      setMapRegion({
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      });
     }
+  }, [item]);
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.containerMap}>
-                <MapView
-                    style={styles.map}
-                    // region={mapRegion}
-                    // initialRegion={{mapRegion}}
-                    initialRegion={{
-                        latitude: 36.7987869,
-                        longitude: 127.0757584,
-                        latitudeDelta: 0.005,
-                        longitudeDelta: 0.005,
-                    }}
-                    ref={mapRef}
-                    //사용자 위치에 맞게 마커가 표시된다.
-                    showsUserLocation={true}
-                    // userLocationUpdateInterval = 
-                    onUserLocationChange={(e) => {
-                        setmapRegion({
-                            latitude: e.nativeEvent.coordinate.latitude,
-                            longitude: e.nativeEvent.coordinate.longitude
-                        });
-                    }}
-                    onRegionChange={mapRegionChangehandle}
-                >
-
-                    <Marker
-                        coordinate={{ latitude: 36.7987869, longitude: 127.0757584 }}
-                        onPress={() => {
-                            onDetail(36.7987869, 127.0757584)
-                        }}
-                    >
-                        <Callout>
-                            <View >
-                                <Text>text2</Text>
-                            </View>
-                        </Callout >
-                    </Marker>
-                </MapView>
-
-
-            </View>
-        </View>
-
-    );
-}
-
-export default MapScreen;
+  return (
+    <View style={styles.container}>
+      <MapView
+        ref={mapRef}
+        style={styles.map}
+        region={mapRegion}
+        onRegionChange={mapRegionChangeHandle}
+        showsUserLocation={true}
+        followsUserLocation={false} // 수정: followsUserLocation 속성을 false로 설정
+      >
+        {item && item.latitude && item.longitude && (
+          <Marker
+            coordinate={{
+              latitude: parseFloat(item.latitude),
+              longitude: parseFloat(item.longitude),
+            }}
+          >
+            <Callout>
+              <View>
+                <Text>{item.name}</Text>
+                <Text>{item.brand}</Text>
+                <Text>{item.price}</Text>
+              </View>
+            </Callout>
+          </Marker>
+        )}
+      </MapView>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    containerMap: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        ...StyleSheet.absoluteFillObject,
-    },
-    map: {
-        ...StyleSheet.absoluteFillObject,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
 });
+
+export default MapScreen;
