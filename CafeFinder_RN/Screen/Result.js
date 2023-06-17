@@ -15,20 +15,21 @@ const Result = (props) => {
   };
 
   const renderItem = ({ item }) => (
-
-    <View>
-      <Text>
-        {item.image ? (
-          <Image
-            source={{ uri: item.image }}
-            style={{ width: 50, height: 50 }}
-          />
-        ) : (
-          <Text> No Image </Text>
-        )}
-        {item.brand} : {item.name} : {item.price}
-      </Text>
-    </View>
+    <TouchableOpacity onPress={() => handleItemClick(item)}>
+      <View>
+        <Text>
+          {item.image ? (
+            <Image
+              source={{ uri: item.image }}
+              style={{ width: 50, height: 50 }}
+            />
+          ) : (
+            <Text>No Image </Text>
+          )}
+          {item.brand} : {item.name} : {item.price}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
