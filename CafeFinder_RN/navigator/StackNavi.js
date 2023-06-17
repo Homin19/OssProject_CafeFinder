@@ -2,8 +2,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Main from "../Screen/Main";
 import Result from "../Screen/Result";
 import MapScreen from "../Screen/MapScreen";
-import AdminLogin from "../Screen/AdminLogin"
-import DataManager from "../Screen/DataManager"
 import DirectionsScreen from '../Screen/DirectionsScreen'
 const Stack = createStackNavigator();
 
@@ -56,40 +54,6 @@ const StackNavi = () => {
         }}
       />
       <Stack.Screen
-        name="AdminLogin"
-        component={AdminLogin}
-        options={{
-          title: "관리자 로그인",
-          headerShown: true,
-          headerStyle: { backgroundColor: "#9acd32" },
-          headerTintColor: "white",
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "white",
-          },
-        }}
-      />
-      <Stack.Screen
-        name="DataManager"
-        component={DataManager}
-        options={{
-          title: "데이터 관리",
-          headerShown: true,
-          headerStyle: { backgroundColor: "#9acd32" },
-          headerTintColor: "white",
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "white",
-          },
-        }}
-      />
-
-
-
-
-
-
-      <Stack.Screen
         name="DirectionsScreen"
         component={DirectionsScreen}
         options={{
@@ -103,8 +67,6 @@ const StackNavi = () => {
           },
         }}
       />
-
-      
     </Stack.Navigator>
   );
 };

@@ -96,10 +96,7 @@ const Main = (props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.container3}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("AdminLogin")
-          }>
+        <TouchableOpacity>
           <Image
             style={styles.imagebutton}
             source={require("../assets/setting.png")}
