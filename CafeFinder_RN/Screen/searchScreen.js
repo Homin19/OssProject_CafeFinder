@@ -68,6 +68,12 @@ const SearchScreen = (props) => {
   return (
     <View>
       <TextInput
+        style={{
+          height: 55,
+          borderColor: "gray",
+          borderWidth: 2,
+          fontSize: 25,
+        }}
         placeholder="Search"
         value={searchTerm}
         onChangeText={(text) => searchFilter(text)}

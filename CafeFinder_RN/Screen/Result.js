@@ -13,7 +13,7 @@ const Result = (props) => {
             style={{ width: 50, height: 50 }}
           />
         ) : (
-          <Text>No Image </Text>
+          <Text> No Image </Text>
         )}
         {item.brand} : {item.name} : {item.price}
       </Text>
