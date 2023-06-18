@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { useNavigation } from '@react-navigation/native';
+import { StackActions } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 
 const MapScreen = ({ route }) => {
   const { item } = route.params;
+  const navigation = useNavigation();
 
   const [mapRegion, setMapRegion] = useState({
     latitude: 36.7987869,
@@ -19,6 +23,24 @@ const MapScreen = ({ route }) => {
 
   const mapRegionChangeHandle = (region) => {
     setRegion(region);
+  };
+  const onMarkerPress = () => {
+    if (region && item && item.latitude && item.longitude) {
+      const markerLocation = {
+        latitude: parseFloat(item.latitude),
+        longitude: parseFloat(item.longitude),
+      };
+  
+      navigation.dispatch(
+        CommonActions.navigate({
+          name: 'MarkerDistance',
+          params: {
+            currentLocation: region,
+            markerLocation: markerLocation,
+          },
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -67,6 +89,9 @@ const MapScreen = ({ route }) => {
               latitude: parseFloat(item.latitude),
               longitude: parseFloat(item.longitude),
             }}
+            title={item.title}
+            description={item.description}
+            onPress={onMarkerPress} // 마커 클릭 이벤트 핸들러 등록
           >
             <Callout>
               <View>

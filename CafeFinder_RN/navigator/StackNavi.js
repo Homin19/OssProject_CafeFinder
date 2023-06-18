@@ -4,7 +4,7 @@ import Result from "../Screen/Result";
 import MapScreen from "../Screen/MapScreen";
 import AdminLogin from "../Screen/AdminLogin";
 import DataManager from "../Screen/DataManager";
-import DirectionsScreen from '../Screen/DirectionsScreen'
+import MarkerDistanceScreen from "../Screen/MarkerDistanceScreen"
 const Stack = createStackNavigator();
 
 const StackNavi = () => {
@@ -85,20 +85,15 @@ const StackNavi = () => {
       />
 
 
-      <Stack.Screen
-        name="DirectionsScreen"
-        component={DirectionsScreen}
-        options={{
-          title: "DirectionsScreen",
-          headerShown: true,
-          headerStyle: { backgroundColor: "#9acd32" },
-          headerTintColor: "white",
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "white",
-          },
-        }}
-      />
+<Stack.Screen
+    name="MarkerDistance"
+    component={MarkerDistanceScreen}
+    options={({ route }) => ({
+      title: 'Marker Distance',
+      currentLocation: route.params.currentLocation,
+      markerLocation: route.params.markerLocation,
+    })}
+  />
     </Stack.Navigator>
   );
 };
