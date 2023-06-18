@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+
+//npm install react-native-maps
 import MapView, { Marker, Callout } from 'react-native-maps';
+
+//npm install expo-location
 import * as Location from 'expo-location';
+
 import { useNavigation } from '@react-navigation/native';
-import { StackActions } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 
 const MapScreen = ({ route }) => {
@@ -47,22 +51,24 @@ const MapScreen = ({ route }) => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        console.log('위치 권한이 거부되었습니다.');
         return;
       }
 
       let location = await Location.getCurrentPositionAsync({});
+      
       setMapRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.005,
         longitudeDelta: 0.005,
       });
+      
     })();
   }, []);
 
   useEffect(() => {
-    if (item) {
+    if (item && item.latitude && item.longitude) {
       const { latitude, longitude } = item;
       setMapRegion({
         latitude: parseFloat(latitude),
@@ -70,6 +76,12 @@ const MapScreen = ({ route }) => {
         latitudeDelta: 0.005,
         longitudeDelta: 0.005,
       });
+    } else {
+      setMapRegion((prevRegion) => ({
+        ...prevRegion, // 이전 mapRegion 값을 유지
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      }));
     }
   }, [item]);
 

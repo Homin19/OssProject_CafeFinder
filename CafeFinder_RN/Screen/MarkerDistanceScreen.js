@@ -1,63 +1,84 @@
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Button, Platform } from 'react-native';
 import * as Linking from 'expo-linking';
+import * as Location from 'expo-location';
+import MapViewDirections from 'react-native-maps-directions';
+
+
 
 const MarkerDistanceScreen = ({ route }) => {
-  const route = useRoute();
   const { currentLocation, markerLocation } = route.params;
-  const navigation = useNavigation();
+  const [distance, setDistance] = useState(0);
 
-  // 거리 계산 함수
-  const calculateDistance = () => {
-    const lat1 = currentLocation.latitude;
-    const lon1 = currentLocation.longitude;
-    const lat2 = markerLocation.latitude;
-    const lon2 = markerLocation.longitude;
+  useEffect(() => {
+    calculateDistance();
+  }, []);
 
-    const R = 6371; // 지구 반지름 (단위: km)
-    const dLat = ((lat2 - lat1) * Math.PI) / 180;
-    const dLon = ((lon2 - lon1) * Math.PI) / 180;
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos((lat1 * Math.PI) / 180) *
+  const calculateDistance = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('위치 권한이 거부되었습니다.');
+        return;
+      }
+
+      const location = await Location.getCurrentPositionAsync({});
+      const lat1 = location.coords.latitude;
+      const lon1 = location.coords.longitude;
+      const lat2 = markerLocation.latitude;
+      const lon2 = markerLocation.longitude;
+
+      if (lat1 === lat2 && lon1 === lon2) {
+        setDistance(0);
+        return;
+      }
+
+      const R = 6371;
+      const dLat = ((lat2 - lat1) * Math.PI) / 180;
+      const dLon = ((lon2 - lon1) * Math.PI) / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos((lat1 * Math.PI) / 180) *
         Math.cos((lat2 * Math.PI) / 180) *
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const calculatedDistance = R * c;
 
-    return distance.toFixed(2); // 소수점 두 자리까지 표시
+      setDistance(calculatedDistance.toFixed(2));
+    } catch (error) {
+      console.log('위치 정보를 가져올 수 없습니다:', error);
+    }
   };
 
-  // 네이버지도로 이동하는 함수
-  const goToNaverMap = () => {
-    const naverMapUrl = `nmap://route/public?slat=${currentLocation.latitude}&slng=${currentLocation.longitude}&dlat=${markerLocation.latitude}&dlng=${markerLocation.longitude}&appname=com.example.app`;
-
-    Linking.openURL(naverMapUrl).catch(() => {
-      // 네이버지도 앱이 설치되어 있지 않은 경우, 웹 버전을 열거나 다른 액션을 수행할 수 있습니다.
-      // 예: Linking.openURL(`https://map.naver.com/?dlevel=12&slat=${currentLocation.latitude}&slng=${currentLocation.longitude}&stext=출발지&elat=${markerLocation.latitude}&elng=${markerLocation.longitude}&etext=도착지`);
-    });
-  };
-
-  // T맵으로 이동하는 함수
   const goToTMap = () => {
     const tmapUrl = `tmap://route?goalx=${markerLocation.longitude}&goaly=${markerLocation.latitude}&appname=com.example.app`;
 
     Linking.openURL(tmapUrl).catch(() => {
-      // T맵 앱이 설치되어 있지 않은 경우, 웹 버전을 열거나 다른 액션을 수행할 수 있습니다.
-      // 예: Linking.openURL(`https://apis.openapi.sk.com/tmap/app/routes?appKey=YOUR_APP_KEY&name=도착지&lon=${markerLocation.longitude}&lat=${markerLocation.latitude}`);
+      console.log('T맵 앱이 설치되어 있지 않은 경우 다른 액션을 수행할 수 있습니다.');
+    });
+  };
+
+  const goToAppleMap = () => {
+    const origin = `${currentLocation.latitude},${currentLocation.longitude}`;
+    const destination = `${markerLocation.latitude},${markerLocation.longitude}`;
+    const appleMapUrl = `https://maps.apple.com/?saddr=${origin}&daddr=${destination}`;
+
+    Linking.openURL(appleMapUrl).catch(() => {
+      console.log('애플 맵 앱이 설치되어 있지 않은 경우 다른 액션을 수행할 수 있습니다.');
     });
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.distanceText}>
-        현재 위치부터 마커까지의 거리: {calculateDistance()} km
+        현재 위치부터 마커까지의 거리: {distance} km
       </Text>
       <View style={styles.buttonContainer}>
-        <Button title="네이버지도로 이동" onPress={goToNaverMap} />
-        <Button title="T맵으로 이동" onPress={goToTMap} />
+        <Button title="(차량 탑승) T맵으로 이동" onPress={goToTMap} />
+        <Text> </Text>
+        <Button title="(도보 이동) 애플 맵으로 이동" onPress={goToAppleMap} />
+        <Text> </Text>
       </View>
     </View>
   );
@@ -76,8 +97,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
+    justifyContent: 'space-around',
+    width: '100%',
   },
 });
 
