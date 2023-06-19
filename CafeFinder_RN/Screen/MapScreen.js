@@ -1,40 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-
-//npm install react-native-maps
 import MapView, { Marker, Callout } from 'react-native-maps';
-
-//npm install expo-location
-import * as Location from 'expo-location';
-
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
+import * as Location from 'expo-location';
 
 const MapScreen = ({ route }) => {
   const { item } = route.params;
   const navigation = useNavigation();
 
-  const [mapRegion, setMapRegion] = useState({
-    latitude: 36.7987869,
-    longitude: 127.0757584,
-    latitudeDelta: 0.005,
-    longitudeDelta: 0.005,
-  });
-
+  const [mapRegion, setMapRegion] = useState(null);
   const mapRef = React.useRef(null);
-
   const [region, setRegion] = React.useState(null);
+  const [currentLocation, setCurrentLocation] = useState(null);
 
   const mapRegionChangeHandle = (region) => {
     setRegion(region);
   };
+
   const onMarkerPress = () => {
     if (region && item && item.latitude && item.longitude) {
       const markerLocation = {
         latitude: parseFloat(item.latitude),
         longitude: parseFloat(item.longitude),
       };
-  
+
       navigation.dispatch(
         CommonActions.navigate({
           name: 'MarkerDistance',
@@ -56,14 +46,13 @@ const MapScreen = ({ route }) => {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      
-      setMapRegion({
+      console.log('현재 위치:', location.coords.latitude, location.coords.longitude);
+      setCurrentLocation({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.005,
         longitudeDelta: 0.005,
       });
-      
     })();
   }, []);
 
@@ -78,7 +67,7 @@ const MapScreen = ({ route }) => {
       });
     } else {
       setMapRegion((prevRegion) => ({
-        ...prevRegion, // 이전 mapRegion 값을 유지
+        ...prevRegion,
         latitudeDelta: 0.005,
         longitudeDelta: 0.005,
       }));
@@ -87,34 +76,34 @@ const MapScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        region={mapRegion}
-        onRegionChange={mapRegionChangeHandle}
-        showsUserLocation={true}
-        followsUserLocation={false}
-      >
-        {item && item.latitude && item.longitude && (
-          <Marker
-            coordinate={{
-              latitude: parseFloat(item.latitude),
-              longitude: parseFloat(item.longitude),
-            }}
-            title={item.title}
-            description={item.description}
-            onPress={onMarkerPress} // 마커 클릭 이벤트 핸들러 등록
-          >
-            <Callout>
-              <View>
-                <Text>{item.name}</Text>
-                <Text>{item.brand}</Text>
-                <Text>{item.price}</Text>
-              </View>
-            </Callout>
-          </Marker>
-        )}
-      </MapView>
+      {currentLocation && (
+        <MapView
+          ref={mapRef}
+          style={styles.map}
+          region={currentLocation}
+          onRegionChange={mapRegionChangeHandle}
+          showsUserLocation={true}
+          followsUserLocation={true}
+        >
+          {item && item.latitude && item.longitude && (
+            <Marker
+              coordinate={{
+                latitude: parseFloat(item.latitude),
+                longitude: parseFloat(item.longitude),
+              }}
+              title={item.title}
+              description={item.description}
+              onPress={onMarkerPress}
+            >
+              <Callout>
+                <View>
+                  <Text>{item.title}</Text>
+                </View>
+              </Callout>
+            </Marker>
+          )}
+        </MapView>
+      )}
     </View>
   );
 };
@@ -122,12 +111,12 @@ const MapScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: '100%',
   },
 });
 

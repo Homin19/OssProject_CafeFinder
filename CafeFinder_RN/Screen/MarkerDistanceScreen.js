@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, Platform } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
+
+// npm install expo-linking
 import * as Linking from 'expo-linking';
+//npm install expo-location
 import * as Location from 'expo-location';
-import MapViewDirections from 'react-native-maps-directions';
-
-
 
 const MarkerDistanceScreen = ({ route }) => {
   const { currentLocation, markerLocation } = route.params;
@@ -63,6 +63,7 @@ const MarkerDistanceScreen = ({ route }) => {
     const origin = `${currentLocation.latitude},${currentLocation.longitude}`;
     const destination = `${markerLocation.latitude},${markerLocation.longitude}`;
     const appleMapUrl = `https://maps.apple.com/?saddr=${origin}&daddr=${destination}`;
+    console.log('현재 위치:', currentLocation.latitude, currentLocation.longitude);
 
     Linking.openURL(appleMapUrl).catch(() => {
       console.log('애플 맵 앱이 설치되어 있지 않은 경우 다른 액션을 수행할 수 있습니다.');
