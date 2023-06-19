@@ -60,6 +60,9 @@ const MarkerDistanceScreen = ({ route }) => {
   };
 
   const goToAppleMap = () => {
+    
+
+    
     const origin = `${currentLocation.latitude},${currentLocation.longitude}`;
     const destination = `${markerLocation.latitude},${markerLocation.longitude}`;
     const appleMapUrl = `https://maps.apple.com/?saddr=${origin}&daddr=${destination}`;

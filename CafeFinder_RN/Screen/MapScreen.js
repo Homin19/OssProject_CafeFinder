@@ -12,7 +12,12 @@ const MapScreen = ({ route }) => {
   const [mapRegion, setMapRegion] = useState(null);
   const mapRef = React.useRef(null);
   const [region, setRegion] = React.useState(null);
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState({
+    latitude: parseFloat(item.latitude),
+    longitude: parseFloat(item.longitude),
+    latitudeDelta: 0.005,
+    longitudeDelta: 0.005,
+  });
 
   const mapRegionChangeHandle = (region) => {
     setRegion(region);
