@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -18,26 +18,28 @@ const Result = (props) => {
     console.log("Clicked item:", item);
     // 추가 작업 수행
 
-    // 클릭된 항목의 데이터를 MapScreen으로 전달하여 이동
-    navigation.navigate("MapScreen", { item });
+    // 클릭된 항목의 데이터를 MarkerDistanceScreen으로 전달하여 이동
+    navigation.navigate("MarkerDistanceScreen", { item });
   };
 
   const [loadingImages, setLoadingImages] = useState([]);
 
+  useEffect(() => {
+    setLoadingImages([]);
+  }, [searchResults]);
+
   const handleImageLoadStart = (itemId) => {
     setLoadingImages((prevLoadingImages) => [...prevLoadingImages, itemId]);
-  }; // 이미지가 로딩중인지 추적하기 위한 배열
-  // handleImageLoadStart 함수를 추가하여 이미지 로딩이 시작될때 해당 이미지의 ID를 loadingImages 배열에 추가
+  };
 
   const handleImageLoadEnd = (itemId) => {
     setLoadingImages((prevLoadingImages) =>
       prevLoadingImages.filter((id) => id !== itemId)
     );
-  }; // handleImageLoadEnd 함수를 추가하여 이미지 로딩이 완료되었을 때 해당 이미지의 ID를 loadingImages 배열에서 제거
+  };
 
   const renderItem = ({ item }) => {
     const isLoading = loadingImages.includes(item.id);
-    // renderItem 함수에서 이미지가 로딩중이면 ActivityIndicator를 표시
 
     return (
       <TouchableOpacity onPress={() => handleItemClick(item)}>
@@ -84,9 +86,6 @@ const Result = (props) => {
 };
 
 const styles = StyleSheet.create({
-  flatList: {
-    backgroundColor: "lavender",
-  },
   container: {
     flexDirection: "row",
     alignItems: "center",

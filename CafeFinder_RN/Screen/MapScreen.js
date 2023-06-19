@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
@@ -12,12 +12,8 @@ const MapScreen = ({ route }) => {
   const [mapRegion, setMapRegion] = useState(null);
   const mapRef = React.useRef(null);
   const [region, setRegion] = React.useState(null);
-  const [currentLocation, setCurrentLocation] = useState({
-    latitude: parseFloat(item.latitude),
-    longitude: parseFloat(item.longitude),
-    latitudeDelta: 0.005,
-    longitudeDelta: 0.005,
-  });
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const mapRegionChangeHandle = (region) => {
     setRegion(region);
@@ -51,13 +47,13 @@ const MapScreen = ({ route }) => {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      console.log('현재 위치:', location.coords.latitude, location.coords.longitude);
       setCurrentLocation({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.005,
         longitudeDelta: 0.005,
       });
+      setIsLoading(false);
     })();
   }, []);
 
@@ -79,6 +75,14 @@ const MapScreen = ({ route }) => {
     }
   }, [item]);
 
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#9acd32" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       {currentLocation && (
@@ -88,7 +92,7 @@ const MapScreen = ({ route }) => {
           region={currentLocation}
           onRegionChange={mapRegionChangeHandle}
           showsUserLocation={true}
-          followsUserLocation={true}
+          followsUserLocation={false}
         >
           {item && item.latitude && item.longitude && (
             <Marker
@@ -98,7 +102,6 @@ const MapScreen = ({ route }) => {
               }}
               title={item.title}
               description={item.description}
-              onPress={onMarkerPress}
             >
               <Callout>
                 <View>

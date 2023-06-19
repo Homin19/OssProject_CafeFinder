@@ -45,7 +45,7 @@ const StackNavi = () => {
         name="MapScreen"
         component={MapScreen}
         options={{
-          title: "지도",
+          title: "지도 (화면을 축소해보세요)",
           headerShown: true,
           headerStyle: { backgroundColor: "#9acd32" },
           headerTintColor: "white",
@@ -85,15 +85,23 @@ const StackNavi = () => {
       />
 
 
-<Stack.Screen
-    name="MarkerDistance"
-    component={MarkerDistanceScreen}
-    options={({ route }) => ({
-      title: 'Marker Distance',
-      currentLocation: route.params.currentLocation,
-      markerLocation: route.params.markerLocation,
-    })}
-  />
+      <Stack.Screen
+        name="MarkerDistanceScreen"
+        component={MarkerDistanceScreen}
+        options={({ route }) => ({
+          title: '메뉴를 선택하시오.',
+          headerShown: true,
+          headerStyle: { backgroundColor: "#9acd32" },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "white",
+          },
+          currentLocation: route.params.currentLocation,
+          markerLocation: route.params.markerLocation,
+
+        })}
+      />
     </Stack.Navigator>
   );
 };
