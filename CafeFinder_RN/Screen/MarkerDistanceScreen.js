@@ -108,7 +108,7 @@ const MarkerDistanceScreen = ({ route }) => {
           source={require("../assets/mapscreen.png")}
         />
       </TouchableOpacity>
-      <Text style={styles.buttonText}>(차량 탑승 길찾기) T맵 으로 이동 ↓ </Text>
+      <Text style={styles.buttonText}>(차량 탑승) T맵 으로 이동 ↓ </Text>
       <TouchableOpacity style={styles.button} onPress={goToTMap}>
         <View style={styles.buttonContent}>
           <Image
@@ -117,7 +117,7 @@ const MarkerDistanceScreen = ({ route }) => {
           />
         </View>
       </TouchableOpacity>
-      <Text style={styles.buttonText}>(도보 이동 길찾기) 애플 맵으로 이동 ↓</Text>
+      <Text style={styles.buttonText}>(도보 이동) 애플 맵으로 이동 ↓</Text>
       <TouchableOpacity style={styles.button} onPress={goToAppleMap}>
         <View style={styles.buttonContent}>
           <Image
